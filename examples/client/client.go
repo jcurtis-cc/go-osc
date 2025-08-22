@@ -14,7 +14,7 @@ import (
 )
 
 func testString() string {
-	return "test string " + strconv.Itoa(rand.Intn(1000))
+	return "test string " + strconv.Itoa(rand.Intn(1000)+1)
 }
 
 func testBlob() []byte {
@@ -117,11 +117,15 @@ func main() {
 
 		sline := strings.TrimRight(string(line), "\n")
 		if sline == "m" {
-			if err := client.Send(randomMessage("/message/address")); err != nil {
+			msg := randomMessage("/message/address")
+			fmt.Println(msg)
+			if err := client.Send(msg); err != nil {
 				fmt.Println(err)
 			}
 		} else if sline == "b" {
-			if err := client.Send(randomBundle()); err != nil {
+			bundle := randomBundle()
+			fmt.Println(bundle.String())
+			if err := client.Send(bundle); err != nil {
 				fmt.Println(err)
 			}
 		} else if sline == "q" {

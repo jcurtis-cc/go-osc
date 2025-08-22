@@ -400,6 +400,26 @@ func (b *Bundle) Append(pck Packet) error {
 	return nil
 }
 
+func (b *Bundle) String() string {
+	if b == nil {
+		return ""
+	}
+
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "#bundle %d", b.Timetag.TimeTag())
+
+	for _, msg := range b.Messages {
+		sb.WriteString("\n")
+		sb.WriteString(msg.String())
+	}
+	for _, bundle := range b.Bundles {
+		sb.WriteString("\n")
+		sb.WriteString(bundle.String())
+	}
+
+	return sb.String()
+}
+
 // MarshalBinary serializes the OSC bundle to a byte array with the following
 // format:
 // 1. Bundle string: '#bundle'
